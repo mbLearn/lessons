@@ -1,0 +1,146 @@
+1. Using a character set repeated 1 or more times, make a pattern to search for strings that do not contain the characters 'a', 'e', 'i', 'o', 'u', and 'y' and  Add the white space to the characters we wish to not match.
+
+\b[^aeiouy\s]+\b
+
+2. There are several different ways to express a match of anything that is not a number. Select all patterns that will not match any numbers.
+
+[^\d]+
+\D+
+[^0-9]+
+[^0123456789]+
+
+3. Start by matching any exclamation mark that appears directly after a word.
+
+\w\!
+
+4. Update the pattern to make sure there are a minimum of 3 exclamation marks.
+
+\w\!{3, }
+
+5. Update the pattern to ensure there are no more than 10 exclamation marks.
+
+\w\!{3, 10}
+
+6. Use an anchor to ensure there is nothing after the exclamation marks.
+
+
+\w\!{3, 10}$
+
+7. Many operators within regex can be represented with interval expressions. What is the interval expression equivalent to \w*?
+
+\w{0,}
+
+8. case insensitive  - (i)
+
+/pattern/i
+
+9. global (get all) - (g)
+
+/pattern/ig
+
+9a. Construct a pattern to match the literal word 'globe'. Add the appropriate modifier to match all instances of 'globe'.
+
+/globe/g
+
+10. With a multi-line subject string, which modifier will allow the anchors to be scoped per line instead of the entire subject string?
+
+anchors in a multiline string - (m)
+/pattern/mig
+
+11. To begin, construct a pattern that matches the literal 'bandaids' or 'bandages'.
+band(aid|age)s
+
+12. Next, update the pattern to make sure no extra text appears before or after either 'bandaids' or 'bandages'. Take note that this is a multi-line string.
+/^band(aid|age)s$/m
+
+13. Some state names have 2 words. Create a pattern that will match the first word within a two-word state name. A two-word state name can begin with 'new', 'north', 'south', 'west', and 'rhode'. We also want to match on both upper and lower case characters.
+/^(new|north|south|west|rhode)/i
+
+14. Next, let's make all of the words a state can begin with optional. Follow this by an optional whitespace.
+/^(new|north|south|west|rhode)?\s?/i
+
+15. Now, match the remaining section of the state name. This could be any wordlike characters. Keep in mind that we want to match all of the state names within this file and not just the first instance, so add the global modifier.
+/^(new|north|south|west|rhode)?\s?\w+/mig
+
+16. Finally, let's ensure there is not any text before or after our pattern by using anchors. Note that this is a multi-line string, so we'll need to account for that in our pattern modifiers.
+/^(new|north|south|west|rhode)?\s?\w+$/mig
+
+17. To begin, we know that the coordinate can be a positive or negative number. Add a - character that is matched 0 to 1 time, followed by a single digit 1 or more times.
+/^(\-)?[0-9]+/
+
+18. Each number can be positive or negative, so add an optional dash literal followed by a number than can be between 1 and 3 characters in length. Do not use a character set to match numbers and match every coordinate in the file - not just the first one found.
+/^(\-)?[0-9]{1,3}/mg
+
+19. Next, add the decimal place (dot literal) followed by a number repeated 1 or more times. Do not use a character set to match numbers. Let's ensure there is nothing before or after our coordinate on each line. 
+/^(\-)?\d{1,3}\.\d+$/gm
+
+20. Write expression for an address
+/^\d+\s[\w\s]+\w{2,8},\s[\w\s]+\s\w{2}\s\d{5}$/
+
+21. Group the house address to get the house # and road name, city, state, zip
+ /^(\d+\s[\w\s]+\w{2,8}),\s([\w\s]+),\s(\w{2})\s(\d{5})$/
+
+22. For address match only Street or Lane
+Here making the Street Type a Non-capturing group (we get 4 groups here)
+ /^(\d+\s[\w\s]+(?:street|lane)),\s([\w\s]+),\s(\w{2})\s(\d{5})$/
+
+23. Regex allows us to capture and use values extracted from our subject strings. Which of the following expressions would capture and return the result 'blue' from 'sailing the great blue seas'?
+
+sailing the great (\w+) seas
+
+24. Start by writing a pattern that matches all 'gold' words. Let's ensure that the word 'gold' is by itself and not part of a larger word. Add the word boundary anchor to avoid partial matches. Finally, capture the 'gold' words.
+/\b(gold)\b/g
+
+25. Which would not return the result from a group, otherwise known as a non-capturing group?
+(?:)
+
+26. Start by capturing the entire pattern using a group for "12/06/2016 05:52". Then, capture just the hour and minute portion of the subject using another group. Finally, The group used to evaluate either '2015' or '2016' is being returned to us - but that's not what we want. Modify this group so that it does not capture the year.
+/^(\d{2}\/\d{2}\/(?:2015|2016)\s(\d{2}:\d{2}) )$/
+
+27.  Example - "cod", "salmon", "shark", "flatfish", "tuna", "blowfish", "bass"
+To begin, let's match every fish we encounter by including a modifier. 
+/(sword|flat|blow)fish/ g
+
+28. Next, capture the entire fish name using a group so that we have our fish.
+/((sword|flat|blow)fish)/ g
+
+29. Finally, turn the inner group into a non-capturing group so that it does not return any values.
+/((?:sword|flat|blow)fish)/ g
+
+30. Example -- "7564538464USA7304163f17082110789508785765793"
+"5783426534USA8909263m17082110789508784901612"
+"6437264237USA5411263f17082110789508787249611"
+
+30a. First, capture the 3-character country abbreviation using a group.
+/\d{}\d([A-Z]{3})\d{6}\d[a-z]\d{23}
+
+30b. The 6 digits that appear directly after the country abbreviation is the person's date of birth. Capture those 6 digits using another group.
+/\d{}\d([A-Z]{3})(\d{6})\d[a-z]\d{23}
+
+30c. capture the 1-character gender.
+/\d{}\d([A-Z]{3})(\d{6})\d([a-z])\d{23}
+
+31. An example of regex is r"^(From|To|Cc).*?python-list@python.org" 
+
+Now for an explanation: the caret ^ matches text at the beginning of a line. The following group, the part with (From|To|Cc) means that the line has to start with one of the words that are separated by the pipe |. That is called the OR operator, and the regex will match if the line starts with any of the words in the group. The .*? means to un-greedily match any number of characters, except the newline \n character. The un-greedy part means to match as few repetitions as possible. The . character means any non-newline character, the * means to repeat 0 or more times, and the ? character makes it un-greedy.
+
+So, the following lines would be matched by that regex: From: python-list@python.org To: !asp]<,. python-list@python.org
+
+32. # Exercise: make a regular expression that will match an email
+def test_email(your_pattern):
+    pattern = re.compile(your_pattern)
+    emails = ["john@example.com", "python-list@python.org", "wha.t.`1an?ug{}ly@email.com"]
+    for email in emails:
+        if not re.match(pattern, email):
+            print "You failed to match %s" % (email)
+        elif not your_pattern:
+            print "Forgot to enter a pattern!"
+        else:
+            print "Pass"
+pattern = r".*?@\w+.(com|org)"                 # Your pattern here!
+###### Another pattern = r"\"?([-a-zA-Z0-9.`?{}]+@\w+\.\w+)\"?" ######
+test_email(pattern)
+
+
+
+

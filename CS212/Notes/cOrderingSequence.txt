@@ -1,0 +1,49 @@
+May someone please explain how the c(orderings) and instrument_fn works,
+
+I was okay till this point, I have no idea, what is c(orderings) and how it counts each iteration and what role instrument_fn plays.
+
+
+Answer - 
+
+def c(sequence):
+    c.starts += 1
+    for item in sequence:
+        c.items += 1
+        yield item
+
+def instrument_fn(fn, *args):
+    c.starts, c.items = 0, 0
+    result = fn(*args)
+    print('%s got %s with %5d iters over %7d items'%(
+          fn.__name__, result, c.starts, c.items))
+Within the zebra puzzle, you can also see how all this is used:
+
+    orderings = list(itertools.permutations(houses)) # 1
+    ...
+            for (red, green, ivory, yellow, blue) in c(orderings)   # <--- sample invocation of c() over the orderings
+
+    instrument_fn(zebra_puzzle)
+In python, a function is a first class object. The variables c.starts and c.items are part of the function c().
+
+The generator function c() wraps around a sequence. It increments c.starts once and then it increments c.items each time it yields an item from the wrapped sequence.
+
+The function instrument_fn actually initializes the variables c.starts and c.items. Then it invokes the passed function, which will have references to c() in it. Upon return from the passed function, instrument_fn prints out the statistics.
+
+So using the example above, here is what happens:
+
+1. instrument_fn is called with the function zebra_puzzle as a parameter.
+2. instrument_fn sets c.starts and c.items to zero.
+3. instrument_fn calls zebra_puzzle.
+4. zebra_puzzle uses itertools to generate a sequence of all permutations of houses.
+5. We get to the for statement with the colors and our generator function c()
+6. c() set c.starts to 1 and c.items to 1 and yields the first ordering, which is assigned to the colors
+the loop proceeds.
+7. if our for loop enters its next iteration, our generator function c() will increment c.items and yield the next ordering. (Note I didn't say that it would increase c.items to two, since it is very likely that another invocation of c() from one of the other for loops will have already done that! There is only one instance of c() and it is being used from multiple points in the code.)
+8. eventually zebra_puzzle returns control to instrument_fn, which finishes up by printing up the summary of the number of starts and the number of items that were processed in total.
+9. Here is that final output:
+
+zebra_puzzle got (1, 5) with    25 iters over    2775 items
+
+NOte -  The dot means that the variables are attributes of the object 'c' which, in this case, is a function. They are public so you can access them from outside the function c (which I think is what you meant by global).
+
+See in the above answer: "In python, a function is a first class object. The variables c.starts and c.items are part of the function c()."

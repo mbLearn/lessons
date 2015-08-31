@@ -1,0 +1,40 @@
+## 1
+## Github Commands to start 
+
+1. First you have to clone the repository to you local machine
+
+git clone github_url local_directory
+
+2. Then you can create local folders and files inside your local_directory, 
+and add them to the repo using
+
+git add file_path
+
+3. You can also add everything using.
+
+git add .
+
+4. Note that git does not track empty folder. A work-around is to create a file inside the empty folder 
+you want to track. I usually name that file empty but it can be whatever name you choose.
+
+5. Finally, you commit and push back to github
+
+git commit
+git push
+
+
+## 2 
+## How to delete file from remote repository?
+
+git add . -A
+git commit -m "Deleted some files..."
+git push origin master
+
+-A Update the index not only where the working tree has a file matching but also 
+where the index already has an entry. This adds, modifies, and removes index entries 
+to match the working tree. 
+
+## 3
+## Every time I do "git diff" or "git log", I get this error: WARNING: terminal is not fully functional. How do I get rid of this?
+
+-A To set it once in Windows, use set TERM=msys. To set it permanently, use setx TERM msys /M

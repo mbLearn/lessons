@@ -1,0 +1,50 @@
+ The yield is something new, and it makes the definition a generator function, rather than a regular function.
+
+Ex.
+
+def ints(start, end):
+	i = start
+	while i <= end:
+		yield i
+		i = i + 1
+
+What that means is what's going to happen is it's going to execute. As soon as it sees this yield statement, it's going to generate that value i, but keep it's place and when asked for the next, it will continue incrementing i and then continuing through the loop.
+
+let's say;
+
+L = ints(0, 10000)
+When we call this function, if we say L equals the integers from 0 to 1 million, now L won't be a list right away. It'll be a generator. Now L is equal to this generator;
+
+L = < generator >
+
+some funny object. Then you call next of L to get the next object, and you keep on going through. More commonly, instead of calling next explicitly, you'd say for i in L.
+
+for i in L:
+	next(i)
+
+And so generators obey this iteration protocol just like other types of sequences. The great thing is we can yield from anywhere inside this function. We get a very complicated logic here and then yield a partial result, and then continue getting the next result right where we are. 
+
+Another great thing about generator functions is it allows us to deal with infinite sequences. Let's say we wanted to allow the possibility of an open ended interval of integers. We'll make end be an optional argument, which can be None. The idea is that if we have a call, say ints, starting at zero, but I don't give it a end, then that means all the non-negative integers--0, 1, 2, 3, going on forever and never stopping.
+
+Ex. 
+def ints(start, end=None):
+    i = start
+    while i <= end or end is None:
+        yield i
+        i = i + 1
+
+Ex - 2. Define the function all_ints, which generates the infinite stream of integers in the order of 0 first, then +1, -1, +2, -2, +3, -3, and so on. Put in your definition.
+
+def all_ints(start, end=None):
+	yield = 0
+	while True:
+		yield +i
+		yield -i
+		i = i + 1
+
+
+
+
+
+
+91 222 380 3440

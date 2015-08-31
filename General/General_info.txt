@@ -1,0 +1,79 @@
+
+
+# @before.each_scenario
+# def startup(scenario):
+#     global driver
+#
+#     # We may need to switch over to SeleniumFactory at some point
+#     # driver = SeleniumFactory().create_web_driver(job_name=scenario.name)
+#
+#     if 'JENKINS' in os.environ:
+#         if 'SELENIUM_DRIVER' in os.environ:
+#             # Try bypassing SeleniumFactory to see if it is causing the intermittent errors
+#             # driver = SeleniumFactory().create_web_driver(job_name=scenario.name)
+#             sauce_url = "http://syapse_jenkins:a528d7a2-da03-40ae-b809-ae4575571f85@ondemand.saucelabs.com:80/wd/hub"
+#             desired_capabilities = {
+#                 'platform': "Windows 7",
+#                 'browserName': "firefox",
+#                 'version': "33",
+#                 'name': scenario.name,"screenResolution": "1440x900"
+#             }
+#             if 'PROXY_ZAP' in os.environ:
+#                 print "Boo"
+#                 zapproxy = os.environ['PROXY_ZAP']
+#                 desired_capabilities['proxy'] = {
+#                     'httpProxy': zapproxy,
+#                     'ftpProxy':  zapproxy,
+#                     'sslProxy':  zapproxy,
+#                     'noProxy':   None,
+#                     'proxyType': "MANUAL",
+#                     "class":"org.openqa.selenium.Proxy",
+#                     "autodetect": False,
+#                 }
+#
+#             driver = webdriver.Remote(desired_capabilities=desired_capabilities,
+#                                       command_executor=sauce_url)
+#             driver.implicitly_wait(90)
+#         else:
+#             if 'PROXY_ZAP' in os.environ:
+#                 print "JENKINS, no SELENIUM_DRIVER, PROXY_ZAP"
+#                 proxyhost = os.environ['PROXY_ZAP']
+#                 proxy = Proxy({
+#                     'proxyType': ProxyType.MANUAL,
+#                     'httpProxy': proxyhost,
+#                     'ftpProxy':  proxyhost,
+#                     'sslProxy':  proxyhost
+#                 })
+#                 driver = webdriver.Firefox(proxy=proxy)
+#             else:
+#                 driver = webdriver.Firefox()
+#     else:
+#         browser = os.environ.get('BROWSER', 'FF')
+#         if browser == "IE":
+#             capabilities = webdriver.DesiredCapabilities.INTERNETEXPLORER.copy()
+#             capabilities['ie.ensureCleanSession'] = True
+#             driver = webdriver.Ie(capabilities=capabilities)
+#         elif browser == "CHROME":
+#             driver = webdriver.Chrome()
+#         elif browser == "SAFARI":
+#             driver = webdriver.Safari()
+#         elif browser == "FACTORY":
+#             driver = SeleniumFactory().create_web_driver(job_name=scenario.name)
+#         else:
+#             if 'PROXY_ZAP' in os.environ:
+#                 proxyhost = os.environ['PROXY_ZAP']
+#                 proxy = Proxy({
+#                     'proxyType': ProxyType.MANUAL,
+#                     'httpProxy': proxyhost,
+#                     'ftpProxy':  proxyhost,
+#                     'sslProxy':  proxyhost
+#                 })
+#                 driver = webdriver.Firefox(proxy=proxy)
+#             else:
+#                 driver = webdriver.Firefox()
+#
+#     driver.implicitly_wait(70)
+#     driver.set_script_timeout(50)
+#     driver.set_page_load_timeout(50)
+#     driver.get(url)
+#     driver.maximize_window()

@@ -1,0 +1,21 @@
+Setting up QA env
+
+1. Download and install Python (from www.python.org (v. 2.7.9))
+2. Install selenium and lettuce using pip:
+    2.1 Open command prompt and change directory, where pip.exe located (eg. "\Python27\Scripts\")
+    2.2 Type in "pip.exe install selenium" and hit "enter"
+    2.3 Wait until installation will be completed
+    2.4 Install lettuce with typing in (command prompt) "pip.exe install lettuce"
+    2.5 Wait until installation will be completed
+3. Download and install IDE (PyCharm by JetBrains) from https://www.jetbrains.com/pycharm/
+4. Download and install Git and GitHub (you should be already registered on github.com and also, you should have a permission to work with Syapse repository)
+5. From GitHub client "clone" 'QAScripts' folder
+6. Open project in PyCharm:
+    6.1 Open project 
+    6.2 Check the project settings
+        6.2.1 Go to File > Settings > Project:main > Project Interpreter  - set up your python location and click "Apply" button
+        6.2.2 In the same settings window go to Languages & Frameworks > BDD - from drop down menu select "Lettuce" and click "Apply"
+        6.2.3 Install Selenium factory 
+            6.2.3.1 Open command prompt and change directory, where pip.exe located (eg. "\Python27\Scripts\")
+            6.2.3.2 Paste in "pip install git+https://github.com/syapse/SeleniumFactory-for-Python.git#egg=SeleniumFactory"
+7. Your environment successfully set

@@ -1,0 +1,69 @@
+In order to get more comfortable with Git, let’s walk through a fictional workflow 
+while using a little of everything we’ve already learned. You are now a worker 
+at 123 Web Design, where you’re building a new website for 
+Jimmy’s Ice Cream Shop along with a few of your coworkers.
+
+You’ve created a new illustrations of an ice cream sundae, and it’s time to add it to the project. 
+You’ve saved them in a folder on your computer that is also called “icecream” 
+to prevent yourself from getting confused.
+
+Open up the Command Line and change directory until you’re inside the icecream folder, 
+where your designs are stored.
+
+cd ~/icecream
+
+Next, initialize Git so you can start using Git commands inside the folder. 
+The folder is now a Git repository.
+
+git init
+
+Wait, this is the right folder, right? Here’s how you check and 
+make sure this is where you stored your design:
+
+git status
+
+
+And this is what Git will tell you in reply:
+
+# Untracked files:
+#   (use "git add ..." to include in what will be committed)
+
+#
+
+#       chocolate.jpeg
+
+There they are! Add them to your local Git repository so they’ll be tracked by Git.
+
+
+git add chocolate.jpeg
+
+
+Now, take a “snapshot” of the repository as it stands now with the commit command:
+
+
+git commit -m “Add chocolate.jpeg.”
+
+
+Great! But your co-workers, hard at work in their own local repositories, 
+can’t see your fantastic new design. That’s because the main project is stored in the 
+company GitHub account (username: 123WebDesign) in the repository called “icecream.”
+
+Since you haven’t connected to the GitHub repo yet, your computer doesn’t even know this exists. 
+So tell your local repository about it:
+
+
+git remote add origin https://github.com/123WebDesign/icecream.git
+
+
+And double check to make sure it knows:
+
+
+git remote -v
+
+
+Finally, it’s the moment you’ve been waiting for. 
+Upload that delicious looking sundae up to the project:
+
+git push
+
+Ta da! 

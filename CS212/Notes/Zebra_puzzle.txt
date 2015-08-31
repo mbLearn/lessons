@@ -1,0 +1,55 @@
+1)  To iterate over all permutations of the House list, the code first creates a list of all permutations by
+
+orderings = list(itertools.permutations(House))
+and then it creates a generator for each for-loop by calling a generator-function, c(), on orderings as below (though c() does some extra work by updating two variables, c.starts and c.items )
+
+for ( ... ) in c(orderings):
+However, you could have a generator for each for-loop without constructing the orderings list as below
+
+for ( ... ) in c(itertools.permutatuions(House)):
+My question is: Isn't it more efficient to create the generators for the for-loops in this way? Although the size of orderings (5!) is small but in general it's n! which is an exponential function!!!
+
+ANSWER - 
+Computing the sequence of permutations with itertool.permutations requires quite a bit of computation. So when you use
+
+for ( ... ) in c(itertools.permutatuions(House)):
+you will have the computation of the permutations multiple times (The program makes it almost sure that the iterator will get exhausted multiple times). On the other hand
+
+orderings = list(itertools.permutations(House))
+for ( ... ) in c(orderings):
+will compute the permutations only once and store the result in orderings. Now we only iterate over a list instead of computing the next permutation.
+
+
+2)  When Peter uses this "c generator" in Zebra puzzle I wonder if the same generator is applied to the different "for" statements how if preserves it's state until the next call from the first, second, etc. "for" statement? And if for each "for" statement the new instance of the "c generator" is called how how the counts from the instances could be summed up?
+
+ANSWER - 
+
+def c(sequence):
+    c.starts += 1
+    for item in sequence:
+        c.items += 1
+        yield item
+
+You already know that the yield statement makes c() a generator, and as a consequence, with each iteration, the function body is resumed at the point of the last yield and continues until another yield (or the end of the function) is reached.
+
+It also helps to know the "LEGB rule" (Local, Enclosing, Global, Builtin):
+
+... there are at least three nested scopes
+whose namespaces are directly accessible:
+
+the innermost scope, which is searched first, contains the local names
+the scopes of any enclosing functions, ...
+the next-to-last scope contains the current module’s global names
+the outermost scope (searched last) is the namespace containing built-in names
+
+This is saying that when c.starts (or any variable name) is encountered, Python first checks if its is a local variable (such as a variable that has been assigned a value inside a function). In the case of c.starts, Python checks if c is a local variable. It is not. c would be a local variable if an assignment like c = 'foo' were inside the function, but c.starts += 1 does not make c a local variable.
+
+So Python then looks for c in the enclosing scope. That would happen if the definition for c were nested inside another function, but that is not the case here.
+
+So next Python looks for c in the global scope where it finally finds it. So c resolves itself to the function object c. Python then looks to see if this object has a starts attribute. And yes indeed it does. It was defined in the instrument_fn function:
+
+def instrument_fn(fn, *args):
+    c.starts, c.items = 0, 0
+
+
+TLDR: So even though c(orderings) is called in 5 different places, this LEGB rule causes Python to resolve c to the same global function object in all situations. The same attribute c.starts is thus incremented each time.
