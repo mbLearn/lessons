@@ -86,8 +86,3 @@ def compute_ranks(graph):
             newranks[page] = newrank
         ranks = newranks
     return ranks
-
-
-    
-                    
-    
