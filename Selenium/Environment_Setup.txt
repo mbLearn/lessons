@@ -9,7 +9,7 @@ Setting up QA env
     2.5 Wait until installation will be completed
 3. Download and install IDE (PyCharm by JetBrains) from https://www.jetbrains.com/pycharm/
 4. Download and install Git and GitHub (you should be already registered on github.com and also, you should have a permission to work with Syapse repository)
-5. From GitHub client "clone" 'QAScripts' folder
+5. clone repository
 6. Open project in PyCharm:
     6.1 Open project 
     6.2 Check the project settings
